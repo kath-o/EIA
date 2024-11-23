@@ -1,0 +1,42 @@
+eventID,site,habitatType,minimumElevationInMeters,samplingProtocol,samplingEffort,sampleSizeValue,sampleSizeUnit,eventDate,eventTime,startDayOfYear,eventRemarks,country,countryCode,locality,locationID,decimalLatitude,decimalLongitude,geodeticDatum,occurrenceID,basisOfRecord,individualCount,vernacularName,scientificName,kingdom,phylum,class,order,family,taxonRank
+day1_audio2,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.70746,-5.28423,WGS84,day1_audio2_Pipistrellus_pipistrellus,MachineObservation,688,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day1_audio2,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.70746,-5.28423,WGS84,day1_audio2_Pipistrellus_pygmaeus,MachineObservation,100,Soprano pipistrelle,Pipistrellus pygmaeus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day1_audio3,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.69843,-5.28629,WGS84,day1_audio3_Myotis_spp.,MachineObservation,15,Mouse-eared bats,Myotis spp.,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,family
+day1_audio3,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.69843,-5.28629,WGS84,day1_audio3_Pipistrellus_pipistrellus,MachineObservation,7,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day1_audio4,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.69705,-5.28394,WGS84,day1_audio4_Myotis_spp.,MachineObservation,1,Mouse-eared bats,Myotis spp.,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,family
+day1_audio4,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.69705,-5.28394,WGS84,day1_audio4_Pipistrellus_nathusii,MachineObservation,6,Nathusius' pipistrelle,Pipistrellus nathusii,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day1_audio4,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,55.69705,-5.28394,WGS84,day1_audio4_Pipistrellus_pipistrellus,MachineObservation,37,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio1,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70091,-5.28361,WGS84,day2_audio1_Pipistrellus_nathusii,MachineObservation,13,Nathusius' pipistrelle,Pipistrellus nathusii,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio1,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70091,-5.28361,WGS84,day2_audio1_Pipistrellus_pipistrellus,MachineObservation,284,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio2,South,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.69899,-5.28231,WGS84,day2_audio2_Pipistrellus_pipistrellus,MachineObservation,274,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio3,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70552,-5.28246,WGS84,day2_audio3_Myotis_spp.,MachineObservation,79,Mouse-eared bats,Myotis spp.,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,family
+day2_audio3,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70552,-5.28246,WGS84,day2_audio3_Pipistrellus_nathusii,MachineObservation,30,Nathusius' pipistrelle,Pipistrellus nathusii,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio3,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70552,-5.28246,WGS84,day2_audio3_Pipistrellus_pipistrellus,MachineObservation,14992,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio3,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70552,-5.28246,WGS84,day2_audio3_Pipistrellus_pygmaeus,MachineObservation,325,Soprano pipistrelle,Pipistrellus pygmaeus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio3,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70552,-5.28246,WGS84,day2_audio3_Plecotus_auritus,MachineObservation,19,Brown long-eared bat,Plecotus auritus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio4,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70314,-5.27901,WGS84,day2_audio4_Myotis_spp.,MachineObservation,3,Mouse-eared bats,Myotis spp.,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,family
+day2_audio4,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70314,-5.27901,WGS84,day2_audio4_Pipistrellus_pipistrellus,MachineObservation,1604,Common pipistrelle,Pipistrellus pipistrellus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio4,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70314,-5.27901,WGS84,day2_audio4_Pipistrellus_pygmaeus,MachineObservation,175,Soprano pipistrelle,Pipistrellus pygmaeus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day2_audio4,North,,,Audiomoths,"Three hours at sunset, three hours at sunrise. (no sunrise data)",3,hour,13/9/2024,,257,,Scotland,GB-SCT,Lochranza,,55.70314,-5.27901,WGS84,day2_audio4_Plecotus_auritus,MachineObservation,2,Brown long-eared bat,Plecotus auritus,Animalia,Chordata,Mammalia,Chiroptera,Vespertilionidae,species
+day1_MCH5,North,,,Camera traps,,,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,,,WGS84,day1_MCH5_Erithacus_rubecula,MachineObservation,1,European Robin,Erithacus rubecula,Animalia,Chordata,Aves,Passeriformes,Muscicapidae,species
+day1_MCH5,South,,,Camera traps,,,hour,09/12/2024,,256,,Scotland,GB-SCT,Lochranza,,,,WGS84,day1_MCH5_Cervus_elephus,MachineObservation,1,Red Deer,Cervus elephus,Animalia,Chordata,Mammalia,Artiodactyla,Cervidae,species
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
