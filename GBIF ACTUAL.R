@@ -80,8 +80,9 @@ for (i in 1:n_spp) {
 
 
 length(which(spp.check.ok$status=="SYNONYM"))
-length(which(spp.check.ok$status=="DOUBTFUL")) ##there is no species 
+length(which(spp.check.ok$status=="DOUBTFUL")) 
+length(which(spp.check.ok$status=="BAD")) 
 
-
+#for north side invert transects, no doubtful or synonyms
 
 
