@@ -1,25 +1,35 @@
 #RESULTS FOR ECOLOGICAL IMPACT ASSESSMENT
 
+#install.packages("ggplot2")
+#install.packages("vegan")
+#install.packages("tidyverse")
+#install.packages("dplyr")
+#install.packages("readxl")
+#install.packages("betapart")
+
+library(ggplot2)
+library(vegan)
+library(tidyverse)
+library(dplyr)
+library(readxl)
+library(betapart)
+
 #field vertebrates 
 #loading data: vertebrates, field surveys 
-#install.packages("readxl")
-library(readxl)
 
-vert_vis <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vert_vis")
+vert_vis <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vert_vis") #uses function readxl, selects sheet
 
 #unique vertebrate species at each site 
 south_vertspe <- length(unique(vert_vis$scientificName[vert_vis$site == "South"])) #15 unique species
 north_vertspe <- length(unique(vert_vis$scientificName[vert_vis$site == "North"])) #20 unique species  
 
 #plotting vertebrate species per site 
-library(ggplot2)
-
 plot_data <- data.frame(
   Site = c("South", "North"),
   Uniquespecies = c(south_vertspe, north_vertspe)
 )
 
-ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) +
+ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) + #uses ggplot2 package 
   geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
   labs(title = "Number of vertebrate species per site from field survey") + 
        ylab("Number of species") + 
@@ -30,7 +40,7 @@ ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) +
 
 #beta diversity of field verts 
 #creating a presence-absence matrix for vertebrate field data 
-library(dplyr)
+#use dplyr package for summarise function 
 beta_vert_vis <- vert_vis[,c("scientificName","site")] 
 beta_vert_vis$presence <- 1 
 beta_vert_vis <- beta_vert_vis %>%
@@ -47,8 +57,7 @@ beta_vert_pa <- beta_vert_pa[,-1]
 beta_vert_pa[beta_vert_pa > 0] <- 1
 
 #calculating beta diversity- sorensen
-install.packages("betapart")
-library(betapart)
+#use betapart package
 
 vert_vis_sor <- beta.pair(beta_vert_pa, index.family="sorensen")
 mean(vert_vis_sor$beta.sor) #0.44
@@ -68,7 +77,6 @@ south_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "South"]
 north_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "North"])) #5 unique species  
 
 #plotting vertebrate species per site 
-library(ggplot2)
 
 plot_dataaud <- data.frame(
   Site = c("South", "North"),
@@ -85,7 +93,6 @@ ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
 
 #beta diversity of tech verts 
 #creating a presence-absence matrix for vertebrate tech data 
-library(dplyr)
 beta_vert_aud <- vert_aud[,c("scientificName","site")] 
 beta_vert_aud$presence <- 1 
 beta_vert_aud <- beta_vert_aud %>%
@@ -102,9 +109,6 @@ beta_aud_pa <- beta_aud_pa[,-1]
 beta_aud_pa[beta_aud_pa > 0] <- 1
 
 #calculating beta diversity- sorensen
-install.packages("betapart")
-library(betapart)
-
 vert_aud_sor <- beta.pair(beta_aud_pa, index.family="sorensen")
 mean(vert_aud_sor$beta.sor) #0.25
 
@@ -115,15 +119,71 @@ mean(vert_aud_jac$beta.jac) #0.4
 
 
 
+#all vertebrates in combination
+#loading data
+verts <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vertebrates")
+
+#extracting necessary columns for my own ease of analysis 
+verts_subset <- verts %>%
+  select(site, scientificName) #here, i only want to analyse these three variables; select from dyplr package allows this  
+
+#removing n/a values
+vert_clean <- verts_subset %>%
+ filter(!is.na(scientificName)) #remove na from scientificName
+
+#unique vertebrate species at each site 
+south_verts <- length(unique(vert_clean$scientificName[vert_clean$site == "South"])) #19 unique species
+north_verts <- length(unique(vert_clean$scientificName[vert_clean$site == "North"])) #25unique species
+
+#plotting vertebrate species per site 
+plot_dataverts <- data.frame(
+  site = c("South", "North"),
+  species = c(south_verts, north_verts)
+)
+
+ggplot(plot_dataverts, aes(x = site, y = species, fill = site)) +
+  geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
+  labs(title = "Vertebrate species richness per site") + 
+  ylab("Number of species") + 
+  xlab("Site") +
+  theme_grey() +
+  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
+
+#beta diversity of all verts 
+#creating a presence-absence matrix for vertebrate  data 
+beta_vert <- vert_clean[,c("scientificName","site")] 
+beta_vert$presence <- 1 
+beta_vert <- beta_vert %>%
+  group_by(site, scientificName) %>%
+  summarise(presence=sum(presence), .groups = "drop")
+
+beta_all_pa <- beta_vert %>% 
+  pivot_wider(names_from=scientificName,values_from=c(presence))
+list0 <- as.list(rep(0,ncol(beta_all_pa)))
+names(list0) <- names(beta_all_pa)
+beta_all_pa <- as.data.frame(beta_all_pa %>% replace_na(list0))
+row.names(beta_all_pa) <- beta_all_pa$site
+beta_all_pa <- beta_all_pa[,-1]
+beta_all_pa[beta_all_pa > 0] <- 1
+
+#calculating beta diversity- sorensen
+vert_all_sor <- beta.pair(beta_all_pa, index.family="sorensen")
+mean(vert_all_sor$beta.sor) #0.36
+
+#calculating beta diversity- jaccard
+vert_all_jac <- beta.pair(beta_all_pa, index.family="jaccard")
+mean(vert_all_jac$beta.jac) #0.53
+
+
+
 #terrestrial invertebrates
 #loading data: invertebrates, terrestrial
 
 inverts_t <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="Inverts_t") #extracting the sheet with terrestrial invert data from whole excel book
 
 #extracting necessary columns for my own ease of analysis 
-library(dplyr) #package allowing subset with function "select"
 inverts_subset <- inverts_t %>%
-  select(site, order, individualCount) #here, i only want to analyse these three variables 
+  select(site, order, individualCount) #here, i only want to analyse these three variables; select from dyplr package allows this  
 
 #removing n/a values
 invert_clean <- inverts_subset %>%
@@ -143,11 +203,10 @@ ggplot(invert_clean, aes(x = order, y = individualCount, fill = site)) + #using 
   labs(fill="Site", title="Relative abundances of terrestrial invertebrate orders between sites") #changing legend title, adding graph title
 
 #shannon index for terrestrial invertebrate orders 
-#install.packages("vegan")
-library(vegan)
+#uses functions from vegan package 
 
 #reshaping the data so each site is a row(wide data), for ease of calculation
-library(tidyr) #package for reshaping data frame, used help page for this package to determine this code along w practical 7 p1
+library(tidyr) #tidyr for reshaping data frame, used help page for this package to determine this code along w practical 7 p1
 invertshan <- invert_clean %>%
   pivot_wider( #reshapes the data by creating new columns 
     names_from = order, #makes order into column names 
@@ -158,7 +217,6 @@ invertshan <- invert_clean %>%
 
 #calculating shannon diversity index
 #method combined knowledge from undergrad + help from SQLPad blog "What is Shannon Diversity Index and How to Calculate It in R", 2024  
-library(vegan)
 shannon_div_in <- diversity(invertshan[, -1], index = "shannon") # -1 removes site column 
                                                                 #diversity() function is from vegan, specify index ("shannon") 
 
@@ -171,9 +229,6 @@ print(shannon_results_in)
 
 #beta diversity of terrestrial inverts 
 #creating a presence-absence matrix 
-library(dplyr)
-library(tidyr)
-
 invert_t_beta <- invert_clean[,c("order","site")] 
 invert_t_beta$presence <- 1 
 invert_t_beta <- invert_t_beta %>%
@@ -190,9 +245,6 @@ invert_t_pa <- invert_t_pa[,-1]
 invert_t_pa[invert_t_pa > 0] <- 1
 
 #calculating beta diversity- sorensen
-install.packages("betapart")
-library(betapart)
-
 invert_t_sor <- beta.pair(invert_t_pa, index.family="sorensen")
 mean(invert_t_sor$beta.sor) #0.29
 
@@ -207,7 +259,6 @@ mean(invert_t_jac$beta.jac) #0.45
 inverts_a <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="Inverts_a")
 
 #extracting necessary columns
-library(dplyr)
 invertsa_subset <- inverts_a %>%
   select(site, order, individualCount)
 
@@ -230,10 +281,8 @@ ggplot(inverta_clean, aes(x = order, y = individualCount, fill = site)) +
   
 #shannon index for aquatic invertebrate orders 
 #install.packages("vegan")
-library(vegan)
 
 #reshaping the data so each site is a row, for ease of calculation
-library(tidyr)
 inverta_shan <- inverta_clean %>%
   pivot_wider(
     names_from = order,
@@ -243,7 +292,6 @@ inverta_shan <- inverta_clean %>%
   )
 
 #calculating shannon diversity index
-library(vegan)
 shannon_div_ina <- diversity(inverta_shan[, -1], index = "shannon") #-1 removes site column 
 
 shannon_results_ina <- data.frame(
@@ -254,10 +302,7 @@ shannon_results_ina <- data.frame(
 print(shannon_results_ina)
 
 #beta diversity of aquatic inverts 
-#creating a presence-absence matrix 
-library(dplyr)
-library(tidyr)
-
+#creating a presence-absence matrix
 invert_a_beta <- inverta_clean[,c("order","site")] 
 invert_a_beta$presence <- 1 
 invert_a_beta <- invert_a_beta %>%
@@ -274,9 +319,6 @@ invert_a_pa <- invert_a_pa[,-1]
 invert_a_pa[invert_a_pa > 0] <- 1
 
 #calculating beta diversity- sorensen
-install.packages("betapart")
-library(betapart)
-
 invert_a_sor <- beta.pair(invert_a_pa, index.family="sorensen")
 mean(invert_a_sor$beta.sor) #0.2
 
