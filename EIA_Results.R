@@ -1,5 +1,6 @@
 #RESULTS FOR ECOLOGICAL IMPACT ASSESSMENT
 
+#field vertebrates 
 #loading data: vertebrates, field surveys 
 #install.packages("readxl")
 library(readxl)
@@ -19,14 +20,46 @@ plot_data <- data.frame(
 )
 
 ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) +
-  geom_bar(stat = "identity", show.legend = FALSE, color = "black", width=0.5) + # stat = "identity" uses the provided y-values
+  geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
   labs(title = "Number of vertebrate species per site from field survey") + 
        ylab("Number of species") + 
        xlab("Site") +
   theme_grey() +
   scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
 
-#loading data: vertebrates, tech surveys: audiomoth
+
+#beta diversity of field verts 
+#creating a presence-absence matrix for vertebrate field data 
+library(dplyr)
+beta_vert_vis <- vert_vis[,c("scientificName","site")] 
+beta_vert_vis$presence <- 1 
+beta_vert_vis <- beta_vert_vis %>%
+  group_by(site, scientificName) %>%
+  summarise(presence=sum(presence), .groups = "drop")
+
+beta_vert_pa <- beta_vert_vis %>% 
+  pivot_wider(names_from=scientificName,values_from=c(presence))
+list0 <- as.list(rep(0,ncol(beta_vert_pa)))
+names(list0) <- names(beta_vert_pa)
+beta_vert_pa <- as.data.frame(beta_vert_pa %>% replace_na(list0))
+row.names(beta_vert_pa) <- beta_vert_pa$site
+beta_vert_pa <- beta_vert_pa[,-1]
+beta_vert_pa[beta_vert_pa > 0] <- 1
+
+#calculating beta diversity- sorensen
+install.packages("betapart")
+library(betapart)
+
+vert_vis_sor <- beta.pair(beta_vert_pa, index.family="sorensen")
+mean(vert_vis_sor$beta.sor) #0.44
+
+#calculating beta diversity- jaccard
+vert_vis_jac <- beta.pair(beta_vert_pa, index.family="jaccard")
+mean(vert_vis_jac$beta.jac) #0.61
+
+
+
+#looading data: vertebrates, tech surveys: audiomoth
 
 vert_aud <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vert_aud")
 
@@ -43,13 +76,46 @@ plot_dataaud <- data.frame(
 )
 
 ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
-  geom_bar(stat = "identity", show.legend = FALSE, color = "black", width=0.5) + # stat = "identity" uses the provided y-values
+  geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
   labs(title = "Number of vertebrate species per site from audio survey") + 
   ylab("Number of species") + 
   xlab("Site") +
   theme_grey() +
   scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
 
+#beta diversity of tech verts 
+#creating a presence-absence matrix for vertebrate tech data 
+library(dplyr)
+beta_vert_aud <- vert_aud[,c("scientificName","site")] 
+beta_vert_aud$presence <- 1 
+beta_vert_aud <- beta_vert_aud %>%
+  group_by(site, scientificName) %>%
+  summarise(presence=sum(presence), .groups = "drop")
+
+beta_aud_pa <- beta_vert_aud %>% 
+  pivot_wider(names_from=scientificName,values_from=c(presence))
+list0 <- as.list(rep(0,ncol(beta_aud_pa)))
+names(list0) <- names(beta_aud_pa)
+beta_aud_pa <- as.data.frame(beta_aud_pa %>% replace_na(list0))
+row.names(beta_aud_pa) <- beta_aud_pa$site
+beta_aud_pa <- beta_aud_pa[,-1]
+beta_aud_pa[beta_aud_pa > 0] <- 1
+
+#calculating beta diversity- sorensen
+install.packages("betapart")
+library(betapart)
+
+vert_aud_sor <- beta.pair(beta_aud_pa, index.family="sorensen")
+mean(vert_aud_sor$beta.sor) #0.25
+
+#calculating beta diversity- jaccard
+vert_aud_jac <- beta.pair(beta_aud_pa, index.family="jaccard")
+mean(vert_aud_jac$beta.jac) #0.4
+
+
+
+
+#terrestrial invertebrates
 #loading data: invertebrates, terrestrial
 
 inverts_t <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="Inverts_t") #extracting the sheet with terrestrial invert data from whole excel book
@@ -66,21 +132,6 @@ invert_clean <- inverts_subset %>%
 #unique terrestrial invertebrate orders at each site 
 south_invertord <- length(unique(invert_clean$order[invert_clean$site == "South"])) #9 unique orders
 north_invertord <- length(unique(invert_clean$order[invert_clean$site == "North"])) #8 unique orders 
-
-#plotting terrestrial invertebrate orders per site
-library(ggplot2)
-plot_datain <- data.frame( #making a data frame so i can plot the two above objects against each other
-  site = c("South", "North"), #creates a site column
-  UniqueOrders = c(south_invertord, north_invertord) #creates a unique orders column
-)
-
-ggplot(plot_datain, aes(x = site, y = UniqueOrders, fill = site)) + #using dataframe just created above 
-  geom_bar(stat = "identity", show.legend = FALSE, color = "black", width=0.5) + # stat = "identity" uses the provided y-values
-  labs(title = "Number of terrestrial invertebrate orders per site") + 
-       ylab("Number of orders present") +
-       xlab("Site") + #axis titles 
-  theme_grey() + #grey theme
-  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours for each bar 
 
 #relative abundance of each order
 #barplot of relative abundances for each order
@@ -118,11 +169,45 @@ shannon_results_in <- data.frame( #dataframe to match the site with the shannon 
 
 print(shannon_results_in)
 
-#loading data: invertebrates, aquatic
+#beta diversity of terrestrial inverts 
+#creating a presence-absence matrix 
+library(dplyr)
+library(tidyr)
 
+invert_t_beta <- invert_clean[,c("order","site")] 
+invert_t_beta$presence <- 1 
+invert_t_beta <- invert_t_beta %>%
+  group_by(site, order) %>%
+  summarise(presence=sum(presence), .groups = "drop")
+
+invert_t_pa <- invert_t_beta %>% 
+  pivot_wider(names_from=order,values_from=c(presence))
+list0 <- as.list(rep(0,ncol(invert_t_pa)))
+names(list0) <- names(invert_t_pa)
+invert_t_pa <- as.data.frame(invert_t_pa %>% replace_na(list0))
+row.names(invert_t_pa) <- invert_t_pa$site
+invert_t_pa <- invert_t_pa[,-1]
+invert_t_pa[invert_t_pa > 0] <- 1
+
+#calculating beta diversity- sorensen
+install.packages("betapart")
+library(betapart)
+
+invert_t_sor <- beta.pair(invert_t_pa, index.family="sorensen")
+mean(invert_t_sor$beta.sor) #0.29
+
+#calculating beta diversity- jaccard
+invert_t_jac <- beta.pair(invert_t_pa, index.family="jaccard")
+mean(invert_t_jac$beta.jac) #0.45
+
+
+
+
+#loading data: invertebrates, aquatic
 inverts_a <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="Inverts_a")
 
 #extracting necessary columns
+library(dplyr)
 invertsa_subset <- inverts_a %>%
   select(site, order, individualCount)
 
@@ -131,22 +216,8 @@ inverta_clean <- invertsa_subset %>%
   filter(!is.na(individualCount) & !is.na(order))
 
 #unique aquatic invertebrate orders at each site 
-south_invertorda <- length(unique(inverta_clean$order[inverta_clean$site == "South"])) #9 unique orders
+south_invertorda <- length(unique(inverta_clean$order[inverta_clean$site == "South"])) #12 unique orders
 north_invertorda <- length(unique(inverta_clean$order[inverta_clean$site == "North"])) #13 unique orders 
-
-#plotting aquatic invertebrate orders per site 
-plot_dataina <- data.frame(
-  Site = c("South", "North"),
-  UniqueOrders = c(south_invertorda, north_invertorda)
-)
-
-ggplot(plot_dataina, aes(x = Site, y = UniqueOrders, fill = Site)) +
-  geom_bar(stat = "identity", show.legend = FALSE, color = "black", width=0.5) + # stat = "identity" uses the provided y-values
-  labs(title = "Number of aquatic invertebrate orders per site") +
-       ylab("Number of orders") +
-       xlab("Site") +
-  theme_grey() +
-  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
 
 #relative abundance of each order
 #barplot of relative abundances for each order
@@ -156,7 +227,7 @@ ggplot(inverta_clean, aes(x = order, y = individualCount, fill = site)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + #x labels angled to make legible 
   scale_fill_manual(values = c("lightblue3", "orange2")) + #colour blind friendly 
   labs(fill="Site", title="Relative abundances of aquatic invertebrate orders between sites") #changing legend title, adding graph title
-
+  
 #shannon index for aquatic invertebrate orders 
 #install.packages("vegan")
 library(vegan)
@@ -182,40 +253,37 @@ shannon_results_ina <- data.frame(
 
 print(shannon_results_ina)
 
-#loading data: bog invertebrates
-#analysed separately because unique environment 
-
-bog <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="BOG")
-
-#extracting necessary columns; want to separate by method rather than site here, because want to analyse methods separately 
-
-bog_subset <- bog %>%
-  select(samplingProtocol, order, individualCount)
-
-#removing n/a values
-bog_clean <- bog_subset %>%
-  filter(!is.na(individualCount) & !is.na(order))
-
-#reshaping the data so each method is a row, for ease of calculation
+#beta diversity of aquatic inverts 
+#creating a presence-absence matrix 
+library(dplyr)
 library(tidyr)
-bogshan <- bog_clean %>%
-  pivot_wider(
-    names_from = order,
-    values_from = individualCount,
-    values_fill = list(individualCount = 0),
-    values_fn = list(individualCount = sum)
-  )
 
-#shannon index for bog 
+invert_a_beta <- inverta_clean[,c("order","site")] 
+invert_a_beta$presence <- 1 
+invert_a_beta <- invert_a_beta %>%
+  group_by(site, order) %>%
+  summarise(presence=sum(presence), .groups = "drop")
 
-shannon_div_bog <- diversity(bogshan[, -1], index = "shannon") #-1 removes site column 
+invert_a_pa <- invert_a_beta %>% 
+  pivot_wider(names_from=order,values_from=c(presence))
+list0 <- as.list(rep(0,ncol(invert_a_pa)))
+names(list0) <- names(invert_a_pa)
+invert_a_pa <- as.data.frame(invert_a_pa %>% replace_na(list0))
+row.names(invert_a_pa) <- invert_a_pa$site
+invert_a_pa <- invert_a_pa[,-1]
+invert_a_pa[invert_a_pa > 0] <- 1
 
-shannon_results_bog <- data.frame(
-  samplingProtocol = bogshan$samplingProtocol,  
-  shannon_result = shannon_div_bog
-)
+#calculating beta diversity- sorensen
+install.packages("betapart")
+library(betapart)
 
-print(shannon_results_bog)
+invert_a_sor <- beta.pair(invert_a_pa, index.family="sorensen")
+mean(invert_a_sor$beta.sor) #0.2
+
+#calculating beta diversity- jaccard
+invert_a_jac <- beta.pair(invert_a_pa, index.family="jaccard")
+mean(invert_a_jac$beta.jac) #0.33
+
 
 #comparison of all data collected 
 #load data for all 
