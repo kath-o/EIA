@@ -19,11 +19,11 @@ library(betapart)
 
 vert_vis <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vert_vis") #uses function readxl, selects sheet
 
-#unique vertebrate species at each site 
+#unique field vertebrate species at each site 
 south_vertspe <- length(unique(vert_vis$scientificName[vert_vis$site == "South"])) #15 unique species
 north_vertspe <- length(unique(vert_vis$scientificName[vert_vis$site == "North"])) #20 unique species  
 
-#plotting vertebrate species per site 
+#plotting field vertebrate species per site 
 plot_data <- data.frame(
   Site = c("South", "North"),
   Uniquespecies = c(south_vertspe, north_vertspe)
@@ -72,11 +72,11 @@ mean(vert_vis_jac$beta.jac) #0.61
 
 vert_aud <- read_excel("~/Desktop/MSc EEB/WD/EIA/arran_res.xlsx",sheet="vert_aud")
 
-#unique vertebrate species at each site 
+#unique tech vertebrate species at each site 
 south_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "South"])) #3 unique species
 north_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "North"])) #5 unique species  
 
-#plotting vertebrate species per site 
+#plotting tech vertebrate species per site 
 
 plot_dataaud <- data.frame(
   Site = c("South", "North"),
@@ -115,8 +115,6 @@ mean(vert_aud_sor$beta.sor) #0.25
 #calculating beta diversity- jaccard
 vert_aud_jac <- beta.pair(beta_aud_pa, index.family="jaccard")
 mean(vert_aud_jac$beta.jac) #0.4
-
-
 
 
 #all vertebrates in combination
@@ -251,7 +249,6 @@ mean(invert_t_sor$beta.sor) #0.29
 #calculating beta diversity- jaccard
 invert_t_jac <- beta.pair(invert_t_pa, index.family="jaccard")
 mean(invert_t_jac$beta.jac) #0.45
-
 
 
 
