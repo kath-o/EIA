@@ -131,7 +131,7 @@ vert_clean <- verts_subset %>%
 
 #unique vertebrate species at each site 
 south_verts <- length(unique(vert_clean$scientificName[vert_clean$site == "South"])) #19 unique species
-north_verts <- length(unique(vert_clean$scientificName[vert_clean$site == "North"])) #25unique species
+north_verts <- length(unique(vert_clean$scientificName[vert_clean$site == "North"])) #25 unique species
 
 #plotting vertebrate species per site 
 plot_dataverts <- data.frame(
