@@ -6,6 +6,7 @@
 #install.packages("dplyr")
 #install.packages("readxl")
 #install.packages("betapart")
+#install.packages("ggpubr")
 
 library(ggplot2)
 library(vegan)
@@ -13,6 +14,7 @@ library(tidyverse)
 library(dplyr)
 library(readxl)
 library(betapart)
+library(ggpubr)
 
 #field vertebrates 
 #loading data: vertebrates, field surveys 
@@ -31,7 +33,7 @@ plot_data <- data.frame(
 
 ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) + #uses ggplot2 package 
   geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
-  labs(title = "Number of vertebrate species per site from field survey") + 
+  labs(title = "Vertebrate species richness per site - field survey") + 
        ylab("Number of species") + 
        xlab("Site") +
   theme_grey() +
@@ -58,7 +60,6 @@ beta_vert_pa[beta_vert_pa > 0] <- 1
 
 #calculating beta diversity- sorensen
 #use betapart package
-
 vert_vis_sor <- beta.pair(beta_vert_pa, index.family="sorensen")
 mean(vert_vis_sor$beta.sor) #0.44
 
@@ -77,7 +78,6 @@ south_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "South"]
 north_vertaud <- length(unique(vert_aud$scientificName[vert_aud$site == "North"])) #5 unique species  
 
 #plotting tech vertebrate species per site 
-
 plot_dataaud <- data.frame(
   Site = c("South", "North"),
   Uniquespecies = c(south_vertaud, north_vertaud)
@@ -85,7 +85,7 @@ plot_dataaud <- data.frame(
 
 ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
   geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
-  labs(title = "Number of vertebrate species per site from audio survey") + 
+  labs(title = "Vertebrate species richness per site - audio survey") + 
   ylab("Number of species") + 
   xlab("Site") +
   theme_grey() +
@@ -116,6 +116,28 @@ mean(vert_aud_sor$beta.sor) #0.25
 vert_aud_jac <- beta.pair(beta_aud_pa, index.family="jaccard")
 mean(vert_aud_jac$beta.jac) #0.4
 
+#combining figures 
+#use ggarrange from ggpubr package 
+fieldplot <- ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) + #uses ggplot2 package 
+  geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
+  labs(title = "Vertebrate species richness per site - field survey") + 
+  ylab("Number of species") + 
+  xlab("Site") +
+  theme_grey() +
+  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
+
+audplot <- ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
+  geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
+  labs(title = "Vertebrate species richness per site - audio survey") + 
+  ylab("Number of species") + 
+  xlab("Site") +
+  theme_grey() +
+  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
+
+vertfigure <- figure <- ggarrange(fieldplot, audplot,
+                                  labels = c("A", "B"),
+                                  ncol = 1, nrow = 2)
+vertfigure
 
 #all vertebrates in combination
 #loading data
