@@ -118,15 +118,15 @@ mean(vert_aud_jac$beta.jac) #0.4
 
 #combining figures 
 #use ggarrange from ggpubr package 
-fieldplot <- ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) + #uses ggplot2 package 
+fieldplot <- ggplot(plot_data, aes(x = Site, y = Uniquespecies, fill = Site)) + #make each plot an object 
   geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
   labs(title = "Vertebrate species richness per site - field survey") + 
   ylab("Number of species") + 
   xlab("Site") +
   theme_grey() +
-  scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
+  scale_fill_manual(values = c("lightblue3", "orange2")) 
 
-audplot <- ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
+audplot <- ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) + #make each plot an object 
   geom_bar(stat = "identity", show.legend = FALSE, width=0.4) + # stat = "identity" uses the provided y-values
   labs(title = "Vertebrate species richness per site - audio survey") + 
   ylab("Number of species") + 
@@ -134,10 +134,10 @@ audplot <- ggplot(plot_dataaud, aes(x = Site, y = Uniquespecies, fill = Site)) +
   theme_grey() +
   scale_fill_manual(values = c("lightblue3", "orange2")) #colour blind friendly colours
 
-vertfigure <- figure <- ggarrange(fieldplot, audplot,
-                                  labels = c("A", "B"),
-                                  ncol = 1, nrow = 2)
-vertfigure
+vertfigure <- figure <- ggarrange(fieldplot, audplot, #again make an object 
+                                  labels = c("A", "B"), #label the figures with a and b 
+                                  ncol = 1, nrow = 2) #one column, two rows, so the figures are stacked 
+vertfigure #shows the figure 
 
 #all vertebrates in combination
 #loading data
