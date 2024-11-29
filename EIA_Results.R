@@ -559,4 +559,3 @@ library(ggpubr) #load all packaged necessary to run this code
   
   
 
-#note to self: when was having problems with git, git push origin HEAD:master into terminal helped 
