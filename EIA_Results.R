@@ -557,5 +557,5 @@ library(ggpubr) #load all packaged necessary to run this code
   invert_a_jac2 <- beta.pair(invert_a_pa2, index.family="jaccard")
   mean(invert_a_jac2$beta.jac) #0.42
   
-  
+
 
